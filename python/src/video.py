@@ -48,8 +48,8 @@ class Video:
 
         string_flagged = ""
         if self.flagged:
-            string_flagged = f"- FLAGGED (reason: {self._reason_flagged})"
-        return self._title+" "+string_video_id+" "+tags_string+" "+string_flagged
+            string_flagged = f" - FLAGGED (reason: {self._reason_flagged})"
+        return self._title+" "+string_video_id+" "+tags_string+string_flagged
 
     @property
     def flagged(self) -> bool:
