@@ -176,6 +176,7 @@ class VideoPlayer:
         if self.check_playlist_exists(playlist_name):
             print("Cannot create playlist: A playlist with the same name already exists")
         else:
+            # add new instance of PlayList with key being in uppercase
             self._playlists[playlist_name.upper()] = Playlist(playlist_name)
             print(f"Successfully created new playlist: {playlist_name}")
 
@@ -186,7 +187,19 @@ class VideoPlayer:
             playlist_name: The playlist name.
             video_id: The video_id to be added.
         """
-        print("add_to_playlist needs implementation")
+
+        if not self.check_playlist_exists(playlist_name):
+            print(f"Cannot add video to {playlist_name}: Playlist does not exist")
+            return
+        elif not self._video_library.get_video(video_id):
+            print(f"Cannot add video to {playlist_name}: Video does not exist")
+            return
+        elif video_id in self._playlists[playlist_name.upper()]._video_ids:
+            print(f"Cannot add video to {playlist_name}: Video already added")
+            return
+        else:
+            self._playlists[playlist_name.upper()].add_video_id(video_id)
+            print(f"Added video to {playlist_name}: {self._video_library.get_video(video_id).title}")
 
     def show_all_playlists(self):
         """Display all playlists."""

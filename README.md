@@ -164,12 +164,21 @@
 
 ### Part 2
 
-  This part is for creating playlist functionality. In this part the class `Playlist` is developed and used. 
+This part is for creating playlist functionality. In this part the class `Playlist` is developed and used. 
   
-  For my implementation, I will be storing instances of `Playlist` in a `VideoPlayer` attribute [OrderedDict](https://docs.python.org/3/library/collections.html#collections.OrderedDict) called `playlists`. I will be using that type so that so 
-  - Hashing can be used to get/access and delete playlists in $O(1)$ 
-  - Keep the order the playlists were added.
+For my implementation, I will be storing instances of `Playlist` in a `VideoPlayer` attribute [OrderedDict](https://docs.python.org/3/library/collections.html#collections.OrderedDict) called `playlists`. I will be using that type so that so 
+- Hashing can be used to get/access and delete playlists in $O(1)$ 
+- Keep the order the playlists were added.
     - An element of type `dict` can be used to keep the order [as of version 3.7](https://docs.python.org/3/library/stdtypes.html#:~:text=Changed%20in%20version%203.7%3A%20Dictionary%20order%20is%20guaranteed%20to%20be%20insertion%20order.%20This%20behavior%20was%20an%20implementation%20detail%20of%20CPython%20from%203.6.), however I wanted to make sure that the order is kept for lower version of python as well.
+
+`Playlist` class
+  - Attributes
+    - `_playlist_name`: `string`
+    - `_video_ids`: `OrderedList`
+  - Methods
+    - add_video_id: None
+      - Adds the video id to the playlist
+
 
 - [x] CREATE_PLAYLIST <playlist_name>
   - Create a new (empty) playlist
@@ -183,6 +192,29 @@
   YT> CREATE_PLAYLIST my_PLAYLIST
   Cannot create playlist: A playlist with the same name already exists
   ```
+
+- [x] ADD_TO_PLAYLIST <playlist_name> <video_id>
+  - Add the specified video the a playlist.
+    - If playlist or video does not exist, show warning
+    - If both don't exist, show playlist warning first
+    - No duplicate videos
+    - Respond to user with playlist name they have typed
+  ```
+  YT> CREATE_PLAYLIST my_playLIST
+  Successfully created new playlist: my_playLIST
+
+  YT> ADD_TO_PLAYLIST my_playlist amazing_cats_video_id
+  Added video to my_playlist: Amazing Cats
+
+  YT> ADD_TO_PLAYLIST my_PLAYlist amazing_cats_video_id
+  Cannot add video to my_PLAYlist: Video already added
+
+  YT> ADD_TO_PLAYLIST my_playlist some_other_video_id
+  Cannot add video to my_playlist: Video does not exist
+  
+  YT> ADD_TO_PLAYLIST another_playlist some_other_video_id
+  Cannot add video to another_playlist: Playlist does not exist
+  ``` 
 
 
 ```
