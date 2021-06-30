@@ -69,9 +69,11 @@
   Stopping video: Life at Google
   Playing video: Funny Dogs
   ```
-    - imported `random.randint()` 
+    - imported `random.sample()` 
       - outside of class: so it does not have to be imported for every instance (unless python caches it)
-      - `randint()` is [both inclusive](https://docs.python.org/3/library/random.html#:~:text=Return%20a%20random%20integer%20N%20such%20that%20a%20%3C%3D%20N%20%3C%3D%20b.%20Alias%20for%20randrange(a%2C%20b%2B1)) so the arguments are `0` and `number_of_videos - 1`
+      - `sample()` is [both inclusive](https://docs.python.org/3/library/random.html#:~:text=Return%20a%20random%20integer%20N%20such%20that%20a%20%3C%3D%20N%20%3C%3D%20b.%20Alias%20for%20randrange(a%2C%20b%2B1)) so the arguments are `0` and `number_of_videos - 1`
+      - `sample()` is used so if a video is unavailable, another video is chosen
+        - similar to shuffling a playlist
 - [x] PAUSE
   - Pause the current plaing video
     - If already paused, show a warning message
@@ -332,7 +334,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 
 ### Part 3
 
-Searching Videos.
+#### Searching Videos.
 
 - [x] SEARCH_VIDEOS <search_term>
   - Display all videos in the library whose title contain the specified search term
@@ -407,6 +409,43 @@ Searching Videos.
   This is very similar to the previous search method but now tupples have to be traversed as well. So the tags are stored temporarily in uppercase, to disregard case sensitivity, and traversed. 
 
 
+### Part 4
+
+- [x] FLAG_VIDEO <video_id> <flag_reason>
+  Mark a video as flagged with a supplied reason
+
+  - Reason is optional, default "Not Supplied"
+    - A string with no whitespace
+  - If already flagged, display warning message
+  - Display warning message when:
+    - user tries to play flagged video
+    - user tires to add flagged video to playlist
+      - show error even if video already exists in playlist
+  - Don't randomly play flagged videos
+  - When showing all videos or videos on playlist
+    - Show flagged status
+  - Don't show flagged videos in search results
+  - Stop video when flagged video was already playing or paused
+
+  Notes at implementing the functionality
+  - additional functionality to `video` class
+    - added `flagged` and `reason_flagged` attributes
+      - `flagged`: `bool`
+      - `reason_flagged`: `string`
+    - added `flag` method
+
+- [x] ALLOW_VIDEO <video_id>
+  Allow a video by un-flagging it
+  - If video does not exist, display a warning message
+  - Will now be shown on
+    - SHOW_ALL_VIDEOS
+    - SHOW_PLAYLIST
+    - SEARCH_VIDEOS
+    - SEARCH_VIDEOS_WITH_TAG
+
+  Notes at impleneting the functionality
+  - additional functionality to `video` class
+    - added `allow` method
 ```
 
 GreyTeddy - Dennis (Dionysios Ntouka)

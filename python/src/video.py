@@ -15,6 +15,11 @@ class Video:
         # in case the caller changes the 'video_tags' they passed to us
         self._tags = tuple(video_tags)
 
+        # if the video is flagged
+        # with placeholder 
+        self._flagged = False
+        self._reason_flagged = "Not supplied"
+
     @property
     def title(self) -> str:
         """Returns the title of a video."""
@@ -41,4 +46,41 @@ class Video:
             tags_string += self._tags[-1]
         tags_string += "]"
 
-        return self._title+" "+string_video_id+" "+tags_string
+        string_flagged = ""
+        if self.flagged:
+            string_flagged = f"- FLAGGED (reason: {self._reason_flagged})"
+        return self._title+" "+string_video_id+" "+tags_string+" "+string_flagged
+
+    @property
+    def flagged(self) -> bool:
+        """Returns "True" if video is flagged."""
+        return self._flagged
+
+    @property
+    def reason_flagged(self) -> str:
+        """Returns the reason why a video is flagged, if the video is flagged.
+        If not, it returns "Not Flagged"
+        """
+        if self.flagged == True:
+            return self._reason_flagged
+        return "Not Flagged"
+
+    def flag(self,reason=""):
+        """Sets the video to flagged"
+
+        Args: 
+            reason: str
+                Reason the video is flagged
+                    If not provided, reason set to "Not supplied"
+        """
+        self._flagged = True
+        if reason:
+            self._reason_flagged = reason
+        else:
+            self._reason_flagged = "Not supplied"
+    
+    def allow(self,reason=""):
+        """Sets the video to allowed"
+        """
+        self._flagged = False
+        self._reason_flagged = ""
