@@ -29,11 +29,14 @@ class Playlist:
         """Returns the video id of a video."""
         return self._video_ids
 
-    def add_video_id(self,video_id):
+    def add_video_id(self,video_id) -> None:
+        """Adds video with video_id on the playlist."""
         self._video_ids[video_id] = None
     
-    def remove_video_by_id(self,video_id):
+    def remove_video_by_id(self,video_id) -> None:
+        """Removes video with video_id, if it's on the playlist."""
         del self._video_ids[video_id]
 
-    def remove_all_videos(self):
+    def remove_all_videos(self) -> None:
+        """Removes all videos from the playlist."""
         self._video_ids = OrderedDict()
