@@ -179,6 +179,19 @@ class VideoPlayer:
 
         if not self.check_playlist_exists(playlist_name):
             print(f"Cannot add video to {playlist_name}: Playlist does not exist")
+            print("Would you like to create that playlist?")
+            print("Enter Y to create the playlist")
+            user_input = input()
+            if user_input.upper() == "Y":
+                self.create_playlist(playlist_name)
+                if self._video_library.get_video(video_id):
+                    print("Would you like to add the video to that playlist?")
+                    print("Enter Y to add the video")
+                    user_input = input()
+                    if user_input.upper() == "Y":
+                        self.add_to_playlist(playlist_name,video_id)
+                else:
+                    print("Cannot add video to the playlist: Video does not exist")
             return
         elif not self._video_library.get_video(video_id):
             print(f"Cannot add video to {playlist_name}: Video does not exist")
@@ -225,6 +238,11 @@ class VideoPlayer:
                     print(self._video_library.get_video(video_id).to_string())
         else:
             print(f"Cannot show playlist {playlist_name}: Playlist does not exist")
+            print("Would you like to create that playlist?")
+            print("Enter Y to create the playlist")
+            user_input = input()
+            if user_input.upper() == "Y":
+                self.create_playlist(playlist_name)
 
     def remove_from_playlist(self, playlist_name, video_id):
         """Removes a video to a playlist with a given name.

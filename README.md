@@ -453,7 +453,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 #### Implemented the more changes to a a different directory, to not interfere with the tests provided.
 ##### To run the app with the implemented changes, run `./run_app_more.bat`
 
-- [ ] If a playlist doesn't exist yet
+- [x] If a playlist doesn't exist yet
   - Ask user
     - Creat a playlist with the name given
 - [ ] Show number of videos on playlist
