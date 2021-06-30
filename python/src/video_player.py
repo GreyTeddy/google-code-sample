@@ -321,7 +321,7 @@ class VideoPlayer:
         
         if user_input <= len(search_results) and user_input > 0:
             # user input is offset by 1 as counting starts from 0 on lists
-            self.play_video(video_id)
+            self.play_video(search_results[user_input-1])
 
     def search_videos_tag(self, video_tag):
         """Display all videos whose tags contains the provided tag.
@@ -329,7 +329,40 @@ class VideoPlayer:
         Args:
             video_tag: The video tag to be used in search.
         """
-        print("search_videos_tag needs implementation")
+        all_videos = self._video_library.get_all_videos()
+        # put all the found videos on a temporary list
+        search_results = []
+        for video in all_videos:
+            # temporarly store all the tags for a video in uppercase
+            temp_tags = [tag.upper() for tag in video.tags]
+            if video_tag.upper() in temp_tags:
+                search_results.append(video.video_id)
+
+        # if the resulting list is empty
+        # then no solutions
+        if not len(search_results):
+            print(f"No search results for {video_tag}")
+            return
+
+        # sort the search results by title
+        search_results.sort(key= lambda tup: self._video_library.get_video(tup).title)
+        print(f"Here are the results for {video_tag}:")
+        for index, video_id in enumerate(search_results):
+            print(str(index+1)+") "+ self._video_library.get_video(video_id).to_string())
+        
+        print("Would you like to play any of the above? If yes, specify the number of the video.")
+        print("If your answer is not a valid number, we will assume it's a no.")
+        # try and get user integer
+        try:
+            user_input = int(input())
+        # if not an integer, do nothing and return to main command menu
+        except ValueError:
+            return
+        
+        if user_input <= len(search_results) and user_input > 0:
+            # user input is offset by 1 as counting starts from 0 on lists
+            self.play_video(search_results[user_input-1])
+
 
     def flag_video(self, video_id, flag_reason=""):
         """Mark a video as flagged.

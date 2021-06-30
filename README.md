@@ -369,6 +369,43 @@ Searching Videos.
   
   So, python functions and/or regular expressions can be used. For this implementation the python keyword `in` will be used, where similarly to handling non-case sensitive terms in other functions, `upper()` will be used to "normalise" the comparisons.
 
+- [x] SEARCH_VIDEOS_WITH_TAG <tag_name>
+  - Show all videos whose list of tags contains the specified hashtag
+    - Not case sensitive
+    - In lexicographical order by titel
+    - No results shown, if user forgets hashtag
+  - Ask the user to play one of the videos
+    - Read the answer in standard input
+    - If valid number, play video
+    - If not, do nothing 
+
+  ```
+  YT> SEARCH_VIDEOS_WITH_TAG #cat
+  Here are the results for #cat:
+  1) Amazing Cats (amazing_cats_video_id) [#cat #animal]
+  2) Another Cat Video (another_cat_video_id) [#cat #animal]
+  Would you like to play any of the above? If yes, specify the number of the video.
+  If your answer is not a valid number, we will assume it's a no.
+  No
+  
+  YT> SEARCH_VIDEOS_WITH_TAG #cat
+  Here are the results for #cat:
+  1) Amazing Cats (amazing_cats_video_id) [#cat #animal]
+  2) Another Cat Video (another_cat_video_id) [#cat #animal]
+  Would you like to play any of the above? If yes, specify the number of the video.
+  If your answer is not a valid number, we will assume it's a no.
+  2
+  Playing video: Another Cat Video
+  
+  YT> SEARCH_VIDEOS_WITH_TAG #blah
+  No search results for #blah
+  
+  YT> SEARCH_VIDEOS_WITH_TAG cat
+  No search results for cat
+  ```
+
+  This is very similar to the previous search method but now tupples have to be traversed as well. So the tags are stored temporarily in uppercase, to disregard case sensitivity, and traversed. 
+
 
 ```
 
