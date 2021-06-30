@@ -446,6 +446,33 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Notes at impleneting the functionality
   - additional functionality to `video` class
     - added `allow` method
+
+
+### Want More?
+
+#### Implemented the more changes to a a different directory, to not interfere with the tests provided.
+##### To run the app with the implemented changes, run `./run_app_more.bat`
+
+- [ ] If a playlist doesn't exist yet
+  - Ask user
+    - Creat a playlist with the name given
+- [ ] Show number of videos on playlist
+  - Implement fix where
+    - "1 video" instead of "1 videos"
+- [ ] Command to play a whole playlist and command to advance to the next video
+  -  PLAY_PLAYLIST <playlist_name>
+  -  NEXT command
+     -  Print warning
+        -  if no playlist is playing
+        -  if there is no other song in the queue 
+  -  Should work with PLAY <id>, STOP, PAUSE, CONTINUE
+  - SHOW_CURRENT_PLAYLIST
+- [ ] Rating System
+  - RATE_VIDEO <video_id> <rating>
+  - rating can only be in a certain range (e.g. 1-5)
+- [ ] UNDO command
+- [ ] Add real URL to video
+- [ ] How to optimise the search when there are multiple videos and tags
 ```
 
 GreyTeddy - Dennis (Dionysios Ntouka)
