@@ -242,11 +242,11 @@ class VideoPlayer:
             playlist_name: The playlist name.
             video_id: The video_id to be removed.
         """
-        # ff the playlist exists
+        # if the playlist exists
         if playlist_name.upper() in self._playlists:
             if video_id in self._playlists[playlist_name.upper()].video_ids:
                 # call remove_video_id from playlist._video_id
-                self._playlists[playlist_name.upper()].remove_video_id(video_id)
+                self._playlists[playlist_name.upper()].remove_video_by_id(video_id)
                 print(f"Removed video from {playlist_name}: {self._video_library.get_video(video_id).to_string()}")
             else:
                 # if the video is on the playlist
@@ -263,7 +263,12 @@ class VideoPlayer:
         Args:
             playlist_name: The playlist name.
         """
-        print("clears_playlist needs implementation")
+        # if the playlist exists
+        if playlist_name.upper() in self._playlists:
+            self._playlists[playlist_name.upper()].remove_all_videos()
+            print(f"Successfully removed all videos from {playlist_name}")
+        else:
+            print(f"Cannot clear playlist {playlist_name}: Playlist does not exist")
 
     def delete_playlist(self, playlist_name):
         """Deletes a playlist with a given name.
@@ -271,7 +276,13 @@ class VideoPlayer:
         Args:
             playlist_name: The playlist name.
         """
-        print("deletes_playlist needs implementation")
+        # if the playlist exists
+        if playlist_name.upper() in self._playlists:
+            del self._playlists[playlist_name.upper()]
+            print(f"Deleted playlist: {playlist_name}")
+        else:
+            print(f"Cannot delete playlist {playlist_name}: Playlist does not exist")
+
 
     def search_videos(self, search_term):
         """Display all the videos whose titles contain the search_term.

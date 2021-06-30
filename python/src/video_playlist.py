@@ -32,5 +32,8 @@ class Playlist:
     def add_video_id(self,video_id):
         self._video_ids[video_id] = None
     
-    def remove_video_id(self,video_id):
+    def remove_video_by_id(self,video_id):
         del self._video_ids[video_id]
+
+    def remove_all_videos(self):
+        self._video_ids = OrderedDict()

@@ -288,9 +288,48 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Cannot remove video from another_playlist: Playlist does not exist
   ```
 
-  - Added method `remove_vide_id` to `Playlist` class
+  - Added method `remove_video_by_id` to `Playlist` class
     - Just deletes the `video_id` key element from `._video_ids`
+
+- [x] CLEAR_PLAYLIST <playlist_name>
+  - Remove all the videos from the playlist
+    - Don't delete the playlist
+    - If playlist doesn't exist, display warning
+  ```
+  YT> CREATE_PLAYLIST my_playlist
+  Successfully created new playlist: my_playlist
+  
+  YT> ADD_TO_PLAYLIST my_playlist amazing_cats_video_id
+  Added video to my_playlist: Amazing Cats
+  
+  YT> CLEAR_PLAYLIST my_playlist
+  Successfully removed all videos from my_playlist
+  
+  YT> SHOW_PLAYLIST my_playlist
+  Showing playlist: my_playlist
+  No videos here yet.
+  
+  YT> CLEAR_PLAYLIST another_playlist
+  Cannot clear playlist another_playlist: Playlist does not exist
+  ```
+  - Added method `remove_all_videos` to `Playlist` class
+    - Assigns new `OrderedDict` to `._video_ids`
+
+- [x] DELETE_PLAYLIST <playlist_name>
+  - Delete the specified playlist
+    - If playlist doesn't exist, display warning
+  ```
+  YT> CREATE_PLAYLIST my_playlist
+  Successfully created new playlist: my_playlist
+
+  YT> DELETE_PLAYLIST my_playlist
+  Deleted playlist: my_playlist
+  
+  YT> DELETE_PLAYLIST my_playlist
+  Cannot delete playlist my_playlist: Playlist does not exist
+  ```
 ```
+
 GreyTeddy - Dennis (Dionysios Ntouka)
 Art by Joan G. Stark
           ___   .--.
