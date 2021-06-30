@@ -216,7 +216,21 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Cannot add video to another_playlist: Playlist does not exist
   ``` 
 
-
+- [ ] SHOW_ALL_PLAYLISTS
+  - Show all available playlists (name only)
+  - If no playlists, display “No playlists exist yet”
+  - Playlists should be shown in lexicographical order, ignoring casing
+  ```
+  YT> SHOW_ALL_PLAYLISTS
+  No playlists exist yet
+  
+  YT> CREATE_PLAYLIST MY_playlist
+  Successfully created new playlist: MY_playlist
+  
+  YT> SHOW_ALL_PLAYLISTS
+  Showing all playlists:
+  MY_playlist
+  ```
 ```
 GreyTeddy - Dennis (Dionysios Ntouka)
 Art by Joan G. Stark
