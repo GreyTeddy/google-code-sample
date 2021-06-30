@@ -174,7 +174,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 `Playlist` class
   - Attributes
     - `_playlist_name`: `string`
-    - `_video_ids`: `OrderedList`
+    - `_video_ids`: `OrderedList<None>`
   - Methods
     - add_video_id: None
       - Adds the video id to the playlist
@@ -258,9 +258,38 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Cannot show playlist another_playlist: Playlist does not exist
   ```
 
-  - Added method `to_string` to `video` class
+  - Added method `to_string` to `Video` class
     - Uses string format used in `show_all_videos`
 
+- [x] REMOVE_FROM_PLAYLIST <playlist_name> <video_id>
+  - Remove the specified vdieo from the specified playlist
+    - If either does not exist, display relevant warning
+    - Keep the case of the playlist name
+  ```
+  YT> CREATE_PLAYLIST my_playlist
+  Successfully created new playlist: my_playlist
+
+  YT> ADD_TO_PLAYLIST my_PLAYlist amazing_cats_video_id
+  Added video to my_PLAYlist: Amazing Cats
+
+  YT> REMOVE_FROM_PLAYLIST my_playLIST amazing_cats_video_id
+  Removed video from my_playLIST: Amazing Cats
+
+  YT> REMOVE_FROM_PLAYLIST my_playlist amazing_cats_video_id
+  Cannot remove video from my_playlist: Video is not in playlist
+
+  YT> REMOVE_FROM_PLAYLIST my_playlist some_other_video_id
+  Cannot remove video from my_playlist: Video does not exist
+
+  YT> REMOVE_FROM_PLAYLIST another_playlist amazing_cats_video_id
+  Cannot remove video from another_playlist: Playlist does not exist
+
+  YT> REMOVE_FROM_PLAYLIST another_playlist some_other_video_id
+  Cannot remove video from another_playlist: Playlist does not exist
+  ```
+
+  - Added method `remove_vide_id` to `Playlist` class
+    - Just deletes the `video_id` key element from `._video_ids`
 ```
 GreyTeddy - Dennis (Dionysios Ntouka)
 Art by Joan G. Stark

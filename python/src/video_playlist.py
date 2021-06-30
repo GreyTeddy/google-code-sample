@@ -15,7 +15,7 @@ class Playlist:
         self._playlist_name = playlist_name
         # ordered dict 
         # so the video id can be retrieved in O(1)
-        # with the video id being the key and the value
+        # with a placeholder "None" set
         self._video_ids = OrderedDict()
 
 
@@ -30,4 +30,7 @@ class Playlist:
         return self._video_ids
 
     def add_video_id(self,video_id):
-        self._video_ids[video_id] = video_id
+        self._video_ids[video_id] = None
+    
+    def remove_video_id(self,video_id):
+        del self._video_ids[video_id]
