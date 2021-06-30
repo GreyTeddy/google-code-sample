@@ -1,5 +1,7 @@
 """A video player class."""
 
+from collections import OrderedDict
+from .video_playlist import Playlist
 from .video_library import VideoLibrary
 
 # import outside of class so it is not imported per instance
@@ -15,6 +17,11 @@ class VideoPlayer:
         # but for readability strings are used: 
         # -> "Stopped", "Paused", "Playing"
         self._video_status = "Stopped"
+
+        # the playlists are stored in an ordered dictionary
+        # so they can be accessed in O(1)
+        # and the keys will be uppercased!
+        self._playlists = OrderedDict()
 
     def get_number_of_videos(self):
         """
@@ -147,13 +154,30 @@ class VideoPlayer:
         else:
             print("No video is currently playing")
         
+    def check_playlist_exists(self, playlist_name):
+        """Checks if a playlist exists
+        by comparing the "playlist_name" with the playlists stored
+        regardless of casing
+        """
+
+        # this check is done in O(n) time
+        # unless I use hashing/dictionary it will probably stay like that
+        if playlist_name.upper() in self._playlists:
+            return True
+        return False
+
+
     def create_playlist(self, playlist_name):
         """Creates a playlist with a given name.
 
         Args:
             playlist_name: The playlist name.
         """
-        print("create_playlist needs implementation")
+        if self.check_playlist_exists(playlist_name):
+            print("Cannot create playlist: A playlist with the same name already exists")
+        else:
+            self._playlists[playlist_name.upper()] = Playlist(playlist_name)
+            print(f"Successfully created new playlist: {playlist_name}")
 
     def add_to_playlist(self, playlist_name, video_id):
         """Adds a video to a playlist with a given name.
