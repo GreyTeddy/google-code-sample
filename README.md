@@ -216,10 +216,10 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Cannot add video to another_playlist: Playlist does not exist
   ``` 
 
-- [ ] SHOW_ALL_PLAYLISTS
+- [x] SHOW_ALL_PLAYLISTS
   - Show all available playlists (name only)
-  - If no playlists, display “No playlists exist yet”
-  - Playlists should be shown in lexicographical order, ignoring casing
+    - If no playlists, display “No playlists exist yet”
+    - Playlists should be shown in lexicographical order, ignoring casing
   ```
   YT> SHOW_ALL_PLAYLISTS
   No playlists exist yet
@@ -231,6 +231,36 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Showing all playlists:
   MY_playlist
   ```
+
+- [x] SHOW_PLAYLIST <playlist_name>
+  - Show all videos in a playlist
+    - In the format: “title (video_id) [tags]”
+    - If it doesn'st exists, display warning message
+    - If it's empty, display “No videos here yet"
+    - List videos in the same order they were added
+    - Display name in the same case as user inputted it
+  ```
+  YT> CREATE_PLAYLIST my_playlist
+  Successfully created new playlist: my_playlist
+
+  YT> SHOW_PLAYLIST my_PLAYLIST
+  Showing playlist: my_PLAYLIST
+  No videos here yet
+  
+  YT> ADD_TO_PLAYLIST my_playlist amazing_cats_video_id
+  Added video to my_playlist: Amazing Cats
+  
+  YT> SHOW_PLAYLIST my_playlist
+  Showing playlist: my_playlist
+  Amazing Cats (amazing_cats_video_id) [#cat #animal]
+  
+  YT> SHOW_PLAYLIST another_playlist
+  Cannot show playlist another_playlist: Playlist does not exist
+  ```
+
+  - Added method `to_string` to `video` class
+    - Uses string format used in `show_all_videos`
+
 ```
 GreyTeddy - Dennis (Dionysios Ntouka)
 Art by Joan G. Stark

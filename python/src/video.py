@@ -29,3 +29,16 @@ class Video:
     def tags(self) -> Sequence[str]:
         """Returns the list of tags of a video."""
         return self._tags
+
+    def to_string(self):
+        string_video_id = "("+ self._video_id + ")"
+
+        tags_string = "["
+        num_tags = len(self._tags)
+        if num_tags > 0:
+            for tag_index in range(num_tags-1):
+                tags_string += self._tags[tag_index] + " "
+            tags_string += self._tags[-1]
+        tags_string += "]"
+
+        return self._title+" "+string_video_id+" "+tags_string

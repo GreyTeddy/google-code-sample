@@ -222,7 +222,18 @@ class VideoPlayer:
         Args:
             playlist_name: The playlist name.
         """
-        print("show_playlist needs implementation")
+        # if the playlist exists 
+        if playlist_name.upper() in self._playlists:
+            print(f"Showing playlist: {playlist_name}")
+            # if there are no videos on the playlist
+            if len(self._playlists[playlist_name.upper()].video_ids) < 1:
+                print("No videos here yet")
+            else:
+                # get each video using the video id stored and use to_string() to format
+                for video_id in self._playlists[playlist_name.upper()].video_ids:
+                    print(self._video_library.get_video(video_id).to_string())
+        else:
+            print(f"Cannot show playlist {playlist_name}: Playlist does not exist")
 
     def remove_from_playlist(self, playlist_name, video_id):
         """Removes a video to a playlist with a given name.
