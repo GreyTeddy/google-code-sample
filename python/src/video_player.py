@@ -290,7 +290,35 @@ class VideoPlayer:
         Args:
             search_term: The query to be used in search.
         """
-        print("search_videos needs implementation")
+        all_videos = self._video_library.get_all_videos()
+        search_results = []
+        # put all the found videos on a temporary list
+        for video in all_videos:
+            if search_term.upper() in video.title.upper():
+                search_results.append(video)
+        
+        # if the resulting list is empty
+        # then no solutions
+        if not len(search_results):
+            print(f"No search results for {search_term}")
+            return
+        
+        print(f"Here are the results for {search_term}:")
+        for index, video in enumerate(search_results):
+            print(str(index+1)+") "+video.to_string())
+
+        print("Would you like to play any of the above? If yes, specify the number of the video.")
+        print("If your answer is not a valid number, we will assume it's a no.")
+        # try and get user integer
+        try:
+            user_input = int(input())
+        # if not an integer, do nothing and return to main command menu
+        except ValueError:
+            return
+        
+        if user_input <= len(search_results) and user_input > 0:
+            # user input is offset by 1 as counting starts from 0 on lists
+            self.play_video(search_results[user_input-1].video_id)
 
     def search_videos_tag(self, video_tag):
         """Display all videos whose tags contains the provided tag.

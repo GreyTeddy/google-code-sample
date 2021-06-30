@@ -328,6 +328,48 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   YT> DELETE_PLAYLIST my_playlist
   Cannot delete playlist my_playlist: Playlist does not exist
   ```
+
+
+### Part 3
+
+Searching Videos.
+
+- [x] SEARCH_VIDEOS <search_term>
+  - Display all videos in the library whose title contain the specified search term
+    - Not case sensitive
+    - No whitespace or special characters
+    - Lexicographical order (by title)
+  - Ask the user to play one of the videos
+    - Read the answer in standard input
+    - If valid number, play video
+    - If not, do nothing
+  ```
+  YT> SEARCH_VIDEOS cat
+    Here are the results for cat:
+    1) Amazing Cats (amazing_cats_video_id) [#cat #animal]
+    2) Another Cat Video (another_cat_video_id) [#cat #animal]
+    Would you like to play any of the above? If yes, specify the number of the video.
+    If your answer is not a valid number, we will assume it's a no.
+    Nope!
+
+  YT> SEARCH_VIDEOS cat
+    Here are the results for cat:
+    1) Amazing Cats (amazing_cats_video_id) [#cat #animal]
+    2) Another Cat Video (another_cat_video_id) [#cat #animal]
+    Would you like to play any of the above? If yes, specify the number of the video.
+    If your answer is not a valid number, we will assume it's a no.
+    2
+    Playing video: Another Cat Video
+
+  YT> SEARCH_VIDEOS blah
+    No search results for blah
+  ```
+
+  As we are looking for videos that include the words specifically (not case sensitive), we shouldn't use tricks utilising distance measurement or machine learning models, as their purpose is for find text that might be similar but not the same as the input. 
+  
+  So, python functions and/or regular expressions can be used. For this implementation the python keyword `in` will be used, where similarly to handling non-case sensitive terms in other functions, `upper()` will be used to "normalise" the comparisons.
+
+
 ```
 
 GreyTeddy - Dennis (Dionysios Ntouka)
