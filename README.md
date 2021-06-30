@@ -456,7 +456,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 - [x] If a playlist doesn't exist yet
   - Ask user
     - Creat a playlist with the name given
-- [ ] Show number of videos on playlist
+- [x] Show number of videos on playlist
   - Implement fix where
     - "1 video" instead of "1 videos"
 - [ ] Command to play a whole playlist and command to advance to the next video

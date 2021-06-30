@@ -228,7 +228,16 @@ class VideoPlayer:
         """
         # if the playlist exists 
         if playlist_name.upper() in self._playlists:
-            print(f"Showing playlist: {playlist_name}")
+            
+            number_of_videos_in_playlist = len(self._playlists[playlist_name.upper()].video_ids)
+            string_number_of_videos_in_playlist = str(number_of_videos_in_playlist)
+            # fix linguistic mistake
+            if number_of_videos_in_playlist == 1:
+                string_number_of_videos_in_playlist+= " video"
+            else:
+                string_number_of_videos_in_playlist+= " videos"
+            print(f"Showing playlist: {playlist_name} ({string_number_of_videos_in_playlist})")
+
             # if there are no videos on the playlist
             if len(self._playlists[playlist_name.upper()].video_ids) < 1:
                 print("No videos here yet")
