@@ -24,8 +24,35 @@ class CommandParser:
                 "Please enter a valid command, "
                 "type HELP for a list of available commands.")
 
-        if command[0].upper() == "NUMBER_OF_VIDEOS":
+        if command[0].upper() == "RATE":
+            if len(command) != 3:
+                raise CommandException(
+                    "Please enter a video id then a rating.")
+            self._player.rate(command[1],command[2])
+
+        elif command[0].upper() == "GET_AVERAGE_RATING":
+            if len(command) != 2:
+                raise CommandException(
+                    "Please enter a video id.")
+            self._player.get_average_rating(command[1])
+
+        elif command[0].upper() == "SHOW_ALL_VIDEOS_BY_RATING":
+            self._player.show_all_videos_by_rating()
+
+        elif command[0].upper() == "PLAY_PLAYLIST":
+            if len(command) != 2:
+                raise CommandException(
+                    "Please enter PLAY command followed by video_id.")
+            self._player.play_playlist(command[1])
+
+        elif command[0].upper() == "NEXT":
+            self._player.next()
+        
+        elif command[0].upper() == "NUMBER_OF_VIDEOS":
             self._player.number_of_videos()
+
+        elif command[0].upper() == "SHOW_CURRENT_PLAYLIST":
+            self._player.show_current_playlist()
 
         elif command[0].upper() == "SHOW_ALL_VIDEOS":
             self._player.show_all_videos()
@@ -145,7 +172,13 @@ class CommandParser:
             STOP - Stop the current video.
             PAUSE - Pause the current video.
             CONTINUE - Resume the current paused video.
+            RATE <video_id> - Rate a video in the library.
+            GET_AVERAGE_RATING <video_id> - Gets the average rating from a video in the library.
+            SHOW_ALL_VIDEOS_BY_RATING - Shows all the videos sorted by rating (decreasing).
             SHOW_PLAYING - Displays the title, url and paused status of the video that is currently playing (or paused).
+            PLAY_PLAYLIST <playlist_name> - Play the playlist with the provided name.
+            NEXT - Play the next song in the playlist, if a playlist is playing.
+            SHOW_CURRENT_PLAYLIST - Show current playlist playing.
             CREATE_PLAYLIST <playlist_name> - Creates a new (empty) playlist with the provided name.
             ADD_TO_PLAYLIST <playlist_name> <video_id> - Adds the requested video to the playlist.
             REMOVE_FROM_PLAYLIST <playlist_name> <video_id> - Removes the specified video from the specified playlist

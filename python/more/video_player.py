@@ -6,7 +6,6 @@ from .video_library import VideoLibrary
 
 # import outside of class so it is not imported per instance
 # (unless there is caching, I don't know)
-from random import randint
 from random import sample
 
 class VideoPlayer:
@@ -23,6 +22,11 @@ class VideoPlayer:
         # so they can be accessed in O(1)
         # and the keys will be uppercased!
         self._playlists = OrderedDict()
+        
+        self._current_playlist = ""
+        self._current_playlist_video_ids = []
+        self._current_track_index = 0
+        self._last_track_index = -1
 
     def get_number_of_videos(self):
         """
@@ -76,6 +80,14 @@ class VideoPlayer:
 
         if (self._video_playing):
             print(f"Stopping video: {self._video_playing.title}")
+            # empty the current playlist variables
+            # so it stops playing the playlist
+            if (self._current_playlist):
+                print(f"Stoping playlist: {self._current_playlist}")
+                self._current_playlist = ""
+                self._current_playlist_video_ids = []
+                self._current_track_index = 0
+                self._last_track_index = -1
             self._video_playing = None
             self._video_status = "Stopped"
         else:
@@ -228,7 +240,7 @@ class VideoPlayer:
         """
         # if the playlist exists 
         if playlist_name.upper() in self._playlists:
-            
+
             number_of_videos_in_playlist = len(self._playlists[playlist_name.upper()].video_ids)
             string_number_of_videos_in_playlist = str(number_of_videos_in_playlist)
             # fix linguistic mistake
@@ -252,6 +264,49 @@ class VideoPlayer:
             user_input = input()
             if user_input.upper() == "Y":
                 self.create_playlist(playlist_name)
+
+    def play_playlist(self,playlist_name):
+        """Play the playlist with the provided name"""
+        if playlist_name.upper() not in self._playlists:
+            print(f"Cannot play playlist {playlist_name}: Playlist does not exist")
+            return
+        self._current_playlist = self._playlists[playlist_name.upper()].playlist_name
+        self._current_playlist_video_ids = list(self._playlists[playlist_name.upper()].video_ids)
+        self._current_playlist_length = len(self._current_playlist_video_ids)
+        if (self._current_playlist_length > 0):
+            # while 
+            #   the current track index is in range
+            #   the video to be played is flagged
+            #   try the next video
+            while self._current_track_index < self._current_playlist_length and (self._video_library.get_video(self._current_playlist_video_ids[self._current_track_index]).flagged):
+                self._current_track_index+=1
+            
+            if(self._current_track_index >= self._current_playlist_length):
+                print(f"Cannot play playlist {playlist_name}: All videos are flagged")
+            else:
+                print(f"Playing playlist: {playlist_name}")
+                self.play_video(self._current_playlist_video_ids[self._current_track_index])
+        else:
+            print(f"Cannot play playlist {playlist_name}: Playlist is empty")
+    
+    def next(self):
+        """Play the next song in the playlist, if a playlist is playing."""
+
+        self._current_track_index += 1
+        while self._current_track_index < self._current_playlist_length and (self._video_library.get_video(self._current_playlist_video_ids[self._current_track_index]).flagged):
+            self._current_track_index+=1
+        
+        if(self._current_track_index >= self._current_playlist_length):
+            print(f"Nothing playing: End of playlist")
+            self.play_video(self._current_playlist_video_ids[self._current_track_index])
+
+    def show_current_playlist(self):
+        """Show current playlist playing"""
+        if self._current_playlist:
+            print(f"Currently Playlist: {self._current_playlist}")
+        else:
+            print("No playlist playing currently.")
+    
 
     def remove_from_playlist(self, playlist_name, video_id):
         """Removes a video to a playlist with a given name.
@@ -423,3 +478,23 @@ class VideoPlayer:
         else:
             self._video_library.get_video(video_id).allow()
             print(f"Successfully removed flag from video: {self._video_library.get_video(video_id).title}")
+
+    def get_average_rating(self,video_id):
+        video = self._video_library.get_video(video_id)
+        average_rating = video.get_average_rating()
+        if average_rating != -1:
+            print(f"Average rating for {video.title}: {average_rating}")
+        else:
+            print(f"Video has not been rated yet")
+    
+    def rate(self,video_id,rating):
+        if rating in ["1","2","3","4","5"]:
+            self._video_library.get_video(video_id).add_rating(int(rating))
+        else:
+            print("Cannot rate video: Rating not between 1 to 5")
+    
+    def show_all_videos_by_rating(self):
+        videos = self._video_library.get_all_videos()
+        videos.sort(key=lambda video: video.get_average_rating(),reverse=True)
+        for video in videos:
+            print(video.to_string())

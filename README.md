@@ -456,10 +456,11 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 - [x] If a playlist doesn't exist yet
   - Ask user
     - Creat a playlist with the name given
+      - Also add video if used from with command `ADD_VIDEO_TO_PLAYLIST`
 - [x] Show number of videos on playlist
   - Implement fix where
     - "1 video" instead of "1 videos"
-- [ ] Command to play a whole playlist and command to advance to the next video
+- [x] Command to play a whole playlist and command to advance to the next video
   -  PLAY_PLAYLIST <playlist_name>
   -  NEXT command
      -  Print warning
@@ -467,12 +468,22 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
         -  if there is no other song in the queue 
   -  Should work with PLAY <id>, STOP, PAUSE, CONTINUE
   - SHOW_CURRENT_PLAYLIST
-- [ ] Rating System
+  - Edit `command_parser`
+    - Parse the commands
+    - Show the commands on help
+- [x] Rating System
   - RATE_VIDEO <video_id> <rating>
   - rating can only be in a certain range (e.g. 1-5)
+  Implemented:
+    - Rate a video
+    - Get Average rating
+    - Show all videos by rating (descending)
 - [ ] UNDO command
+  - A stack could be used to enter all commands
+    - But due to time constraints only one UNDO can be done
 - [ ] Add real URL to video
-- [ ] How to optimise the search when there are multiple videos and tags
+- [x] How to optimise the search when there are multiple videos and tags
+  Hashing is a way of optimising the search and in case of python dictionaries are the built in answer. In my implemenatations I have used an extension of dictionaries called `OrderedDict`, which are dictionaries which keep the order in which they add elements. Python have this feature since version 3.6, so `OrderedDict` are not needed for >=3.6
 ```
 
 GreyTeddy - Dennis (Dionysios Ntouka)

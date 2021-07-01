@@ -2,7 +2,6 @@
 
 from typing import Sequence
 
-
 class Video:
     """A class used to represent a Video."""
 
@@ -49,7 +48,10 @@ class Video:
         string_flagged = ""
         if self.flagged:
             string_flagged = f" - FLAGGED (reason: {self._reason_flagged})"
-        return self._title+" "+string_video_id+" "+tags_string+string_flagged
+        string_average_rating = ""
+        if len(self._ratings):
+            string_average_rating+= f" Rating: {self.get_average_rating()}"
+        return self._title+" "+string_video_id+" "+tags_string+string_average_rating+string_flagged
 
     @property
     def flagged(self) -> bool:
@@ -84,3 +86,22 @@ class Video:
         """
         self._flagged = False
         self._reason_flagged = ""
+
+    @property
+    def rating(self) -> int:
+        """Returns the rating of the video.
+        Returns -1 if there is no rating"""
+        return self._ratings
+
+    def add_rating(self,rating):
+        """Add a rating to the video"""
+        self._ratings.append(rating)
+    
+    def get_average_rating(self) -> int:
+        """Get the average value of the ratings
+        If no ratings: -1 """
+        if len(self._ratings):
+            return round(sum(self._ratings)/len(self._ratings),1)
+        else:
+            return -1
+
