@@ -1,168 +1,96 @@
-# Google Coding Challenge - Youtube Player
+# Youtube Player - Google Coding Challenge - Internship Experience Uk
 
 ### Coding challenge to code a CLI version of YouTube
 
-- should edit video_player.py (mostly)
+- should edit `video_player.py` (mostly)
+  - ended up changing `video_playlist`, `video` and `commande_parser`.py
 - files use underscode `_` naming scheme
 
 #### Some Extra
 - implemented some `.bat` files to more easily run python commands
+- implemented the want more functionalities in a different folder `more`
+
+### Implemented/Augmented Classes
+#### `Playlist` class
+  - Attributes
+    - `playlist_name`: `string`
+    - `video_ids`: `OrderedList<None>`
+  - Methods
+    - `add_video_id`
+      - Adds video with video id to the playlist
+      - Args:
+        - `video_id`: `string`
+    - `remove_all_videos`
+      - Removes all videos from the playlist
+
+#### `Video` class
+  - Attributes
+    - `title`: `string`
+    - `_video_id`: `String`
+    - `tags`: `tuple<Sequence[string]>`
+    - `flagged`: `bool`
+    - `reason_flagged`: `String`
+  - Methods
+    - `to_string()`
+      - Returns to string
+        - `title`
+        - `id`
+        - `tags`
+        - "Want More" extra
+          - Average Rating
+    - "Want More" extra
+      - `add_rating`
+        - Add a rating to the video
+          - Args:
+          - `video_id`: `string`
+      - `get_average_rating`
+        - Get the average value of the ratings
 
 ### Part 1
-- [x] NUMBER_OF_VIDEOS
+- [x] `NUMBER_OF_VIDEOS`
   - already implemented
-- [x] SHOW_ALL_VIDEOS
+- [x] `SHOW_ALL_VIDEOS`
   - To show all the videos
-  ```
-  YT> SHOW_ALL_VIDEOS
-    Here's a list of all available videos:
-    Amazing cats (amazing_cats_video_id) [#cat #animal]
-    Another Cat Video (another_cat_video_id) [#cat #animal]
-    Funny Dogs (funny_dogs_video_id) [#dog #animal]
-    Life at Google (life_at_google_video_id) [#google #career]
-    Video about nothing (nothing_video_id) []
-  ```
+  ##### Notes at implementing the functionality
   - implemented ```get_number_of_videos()``` that returns the number of videos
     - edited ```number_of_videos()``` so it uses ```get_number_of_videos()```
   - used ```sorted()``` with ```key = lambda ... ``` to sort the videos in terms of title in lexicographical order (as [sort()](https://docs.python.org/3/howto/sorting.html#:~:text=This%20idiom%20works%20because%20tuples%20are%20compared%20lexicographically%3B%20the%20first%20items%20are%20compared%3B%20if%20they%20are%20the%20same%20then%20the%20second%20items%20are%20compared%2C%20and%20so%20on)) does
-- [x] PLAY <video_id>
+- [x] `PLAY <video_id>`
   - Play the specified video
     - If the same video is already playing, then stop and play again.
     - If video does not exist, show that it cannot be played.
-  ```
-  YT> PLAY amazing_cats_video_id
-  Playing video: Amazing Cats
-
-  YT> PLAY funny_dogs_video_id
-  Stopping video: Amazing Cats
-  Playing video: Funny Dogs
-
-  YT> PLAY funny_dogs_video_id
-  Stopping video: Funny Dogs
-  Playing video: Funny Dogs
-
-  YT> PLAY some_other_video_id
-  Cannot play video: Video does not exist
-  ```
+  ##### Notes at implementing the functionalityt play video: Video does not exist
   - added `_video_playing` attribute to the `video_player` class
   - used `get_video(video_id)` method from `video` class
-- [x] STOP
+- [x] `STOP`
   - Stop the current video playing
-  ```
-  YT> PLAY amazing_cats_video_id
-  Playing video: Amazing Cats
-
-  YT> STOP
-  Stopping video: Amazing Cats
-
-  YT> STOP
-  Cannot stop video: No video is currently playing
-  ```
-- [x] PLAY_RANDOM
+- [x] `PLAY_RANDOM`
   - Play a random video
     - If a video is already playing, stop the video
-  ```
-  YT> PLAY_RANDOM
-  Playing video: Life at Google
-
-  YT> PLAY_RANDOM
-  Stopping video: Life at Google
-  Playing video: Funny Dogs
-  ```
+  ##### Notes at implementing the functionality
     - imported `random.sample()` 
       - outside of class: so it does not have to be imported for every instance (unless python caches it)
       - `sample()` is [both inclusive](https://docs.python.org/3/library/random.html#:~:text=Return%20a%20random%20integer%20N%20such%20that%20a%20%3C%3D%20N%20%3C%3D%20b.%20Alias%20for%20randrange(a%2C%20b%2B1)) so the arguments are `0` and `number_of_videos - 1`
       - `sample()` is used so if a video is unavailable, another video is chosen
         - similar to shuffling a playlist
-- [x] PAUSE
+- [x] `PAUSE`
   - Pause the current plaing video
     - If already paused, show a warning message
     - If no video, show a warning message
-  ```
-  YT> PLAY amazing_cats_video_id
-  Playing video: Amazing Cats
-
-  YT> PAUSE
-  Pausing video: Amazing Cats
-
-  YT> PAUSE
-  Video already paused: Amazing Cats
-
-  YT> STOP
-  Stopping video: Amazing Cats
-
-  YT> PAUSE
-  Cannot pause video: No video is currently playing
-  ```
   - If new video is played with one already paused
     - New video should play and ignore paused status
     - New video can be paused
-  ```
-  YT> PLAY amazing_cats_video_id
-  Playing video: Amazing Cats
-
-  YT> PAUSE
-  Pausing video: Amazing Cats
-
-  YT> PLAY another_cat_video_id
-  Stopping video: Amazing Cats
-  Playing video: Another Cat Video
-  
-  YT> PAUSE
-  Pausing video: Another Cat Video
-  ```
+  ##### Notes at implementing the functionality
   - added `_video_status` to the class
     - with `"Stopped"`, `"Paused"` and `"Playing"` as possible values
       - could use integers `0`,`1` and `2` but for readability strings were used instead
-- [x] CONTINUE
+- [x] `CONTINUE`
   - Continue a currently paused video
     - If not paused, display warning
     - If no video playing, display warning
-  ```
-  YT> PLAY amazing_cats_video_id
-  Playing video: Amazing Cats
-
-  YT> CONTINUE
-  Cannot continue video: Video is not paused
-
-  YT> PAUSE
-  Pausing video: Amazing Cats
-  
-  YT> CONTINUE
-  Continuing video: Amazing Cats
-  
-  YT> CONTINUE
-  Cannot continue video: Video is not paused
-  
-  YT> STOP
-  Stopping video: Amazing Cats
-  
-  YT> CONTINUE
-  Cannot continue video: No video is currently playing
-  ```
-- [x] SHOW_PLAYING
+- [x] `SHOW_PLAYING`
   - Display the title, video id, video tags and paused status of the video currently playing
     - If no video playing, display a message
-  ```
-  YT> PLAY amazing_cats_video_id
-  Playing video: Amazing Cats
-  
-  YT> SHOW_PLAYING
-  Currently playing: Amazing Cats (amazing_cats_video_id) [#cat #animal]
-  
-  YT> PAUSE
-  Pausing video: Amazing Cats
-  
-  YT> SHOW_PLAYING
-  Currently playing: Amazing Cats (amazing_cats_video_id) [#cat #animal] - PAUSED
- 
-  YT> STOP
-  Stopping video: Amazing Cats
-  
-  YT> SHOW_PLAYING
-  No video is currently playing
-
-  ```
 
 ### Part 2
 
@@ -173,16 +101,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 - Keep the order the playlists were added.
     - An element of type `dict` can be used to keep the order [as of version 3.7](https://docs.python.org/3/library/stdtypes.html#:~:text=Changed%20in%20version%203.7%3A%20Dictionary%20order%20is%20guaranteed%20to%20be%20insertion%20order.%20This%20behavior%20was%20an%20implementation%20detail%20of%20CPython%20from%203.6.), however I wanted to make sure that the order is kept for lower version of python as well.
 
-`Playlist` class
-  - Attributes
-    - `_playlist_name`: `string`
-    - `_video_ids`: `OrderedList<None>`
-  - Methods
-    - add_video_id: None
-      - Adds the video id to the playlist
-
-
-- [x] CREATE_PLAYLIST <playlist_name>
+- [x] `CREATE_PLAYLIST <playlist_name>`
   - Create a new (empty) playlist
     - Unique Name
     - No Whitespace
@@ -195,7 +114,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Cannot create playlist: A playlist with the same name already exists
   ```
 
-- [x] ADD_TO_PLAYLIST <playlist_name> <video_id>
+- [x] `ADD_TO_PLAYLIST <playlist_name> <video_id>`
   - Add the specified video the a playlist.
     - If playlist or video does not exist, show warning
     - If both don't exist, show playlist warning first
@@ -218,7 +137,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   Cannot add video to another_playlist: Playlist does not exist
   ``` 
 
-- [x] SHOW_ALL_PLAYLISTS
+- [x] `SHOW_ALL_PLAYLISTS`
   - Show all available playlists (name only)
     - If no playlists, display “No playlists exist yet”
     - Playlists should be shown in lexicographical order, ignoring casing
@@ -234,7 +153,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   MY_playlist
   ```
 
-- [x] SHOW_PLAYLIST <playlist_name>
+- [x] `SHOW_PLAYLIST <playlist_name>`
   - Show all videos in a playlist
     - In the format: “title (video_id) [tags]”
     - If it doesn'st exists, display warning message
@@ -263,7 +182,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   - Added method `to_string` to `Video` class
     - Uses string format used in `show_all_videos`
 
-- [x] REMOVE_FROM_PLAYLIST <playlist_name> <video_id>
+- [x] `REMOVE_FROM_PLAYLIST <playlist_name> <video_id>`
   - Remove the specified vdieo from the specified playlist
     - If either does not exist, display relevant warning
     - Keep the case of the playlist name
@@ -293,7 +212,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   - Added method `remove_video_by_id` to `Playlist` class
     - Just deletes the `video_id` key element from `._video_ids`
 
-- [x] CLEAR_PLAYLIST <playlist_name>
+- [x] `CLEAR_PLAYLIST <playlist_name>`
   - Remove all the videos from the playlist
     - Don't delete the playlist
     - If playlist doesn't exist, display warning
@@ -317,7 +236,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   - Added method `remove_all_videos` to `Playlist` class
     - Assigns new `OrderedDict` to `._video_ids`
 
-- [x] DELETE_PLAYLIST <playlist_name>
+- [x] `DELETE_PLAYLIST <playlist_name>`
   - Delete the specified playlist
     - If playlist doesn't exist, display warning
   ```
@@ -336,7 +255,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 
 #### Searching Videos.
 
-- [x] SEARCH_VIDEOS <search_term>
+- [x] `SEARCH_VIDEOS <search_term>`
   - Display all videos in the library whose title contain the specified search term
     - Not case sensitive
     - No whitespace or special characters
@@ -371,7 +290,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
   
   So, python functions and/or regular expressions can be used. For this implementation the python keyword `in` will be used, where similarly to handling non-case sensitive terms in other functions, `upper()` will be used to "normalise" the comparisons.
 
-- [x] SEARCH_VIDEOS_WITH_TAG <tag_name>
+- [x] `SEARCH_VIDEOS_WITH_TAG <tag_name>`
   - Show all videos whose list of tags contains the specified hashtag
     - Not case sensitive
     - In lexicographical order by titel
@@ -411,7 +330,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
 
 ### Part 4
 
-- [x] FLAG_VIDEO <video_id> <flag_reason>
+- [x] `FLAG_VIDEO <video_id> <flag_reason>`
   Mark a video as flagged with a supplied reason
 
   - Reason is optional, default "Not Supplied"
@@ -434,7 +353,7 @@ For my implementation, I will be storing instances of `Playlist` in a `VideoPlay
       - `reason_flagged`: `string`
     - added `flag` method
 
-- [x] ALLOW_VIDEO <video_id>
+- [x] `ALLOW_VIDEO <video_id>`
   Allow a video by un-flagging it
   - If video does not exist, display a warning message
   - Will now be shown on
