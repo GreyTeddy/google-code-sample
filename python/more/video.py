@@ -19,6 +19,9 @@ class Video:
         self._flagged = False
         self._reason_flagged = "Not supplied"
 
+        #ratings
+        self._ratings = []
+
     @property
     def title(self) -> str:
         """Returns the title of a video."""
@@ -35,6 +38,8 @@ class Video:
         return self._tags
 
     def to_string(self):
+        """Returns formated string with information about video
+        Title + ID + tags + string"""
         string_video_id = "("+ self._video_id + ")"
 
         tags_string = "["
